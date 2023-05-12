@@ -1,9 +1,9 @@
-import React, { useContext } from 'react'
-import VideoDispatchContext from '../context/VideoDispatchContext'
+import React from 'react'
+import useVideoDispathHook from '../hooks/VideoDispatchHook'
 
 function Video({ children, title, channel, views, time, verified, id, editVideo }) {
     
-    const dispatch = useContext(VideoDispatchContext);
+    const dispatch = useVideoDispathHook();
     
     return (
         <>
