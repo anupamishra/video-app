@@ -1,0 +1,19 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&display=swap');
+
+*{
+  font-family: 'Inter', sans-serif;
+}
+.app{
+  background-color: #444;
+  color: #fff;
+  width: 100%;
+  height: 100%;
+}
+.darkMode{
+  background-color: #444;
+  color: #fff;
+}
+.lightMode{
+  background-color: #fff;
+  color: #444;
+}
