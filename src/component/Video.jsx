@@ -1,6 +1,10 @@
-import React from 'react'
+import React, { useContext } from 'react'
+import VideoDispatchContext from '../context/VideoDispatchContext'
 
-function Video({ children, title, channel, views, time, verified, id, dispatch, editVideo }) {
+function Video({ children, title, channel, views, time, verified, id, editVideo }) {
+    
+    const dispatch = useContext(VideoDispatchContext);
+    
     return (
         <>
             <div className='shadow rounded-xl text-white my-5 relative'>
