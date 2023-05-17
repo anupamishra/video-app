@@ -1,12 +1,13 @@
 
-import { useContext, useReducer, useState } from 'react';
+import { useCallback, useReducer, useState } from 'react';
 import './App.css';
-import videoDB from './data/data';
+// import videoDB from './data/data';
 import AddVideo from './component/AddVideo';
 import VideoList from './component/VideoList';
 import ThemeContext from './context/ThemeContext';
 import VideosContext from './context/VideosContext';
 import VideoDispatchContext from './context/VideoDispatchContext';
+import Counter from './component/Counter';
 
 function App() {
 
@@ -15,11 +16,13 @@ function App() {
   const [editableVideo, setEditableVideo] = useState(null);
 
   //USE REDUCE STATE 
-  const [videos, dispatch] = useReducer(videoReducer, videoDB);
+  const [videos, dispatch] = useReducer(videoReducer, []);
 
   //REDUCER FUNTIONS
   function videoReducer(videos, action) {
     switch (action.type) {
+      case 'LOAD':
+        return action.payload;
       case 'ADD':
         return [
           ...videos,
@@ -39,10 +42,12 @@ function App() {
   }
 
   //EDIT FUNCTION FOR VIDEO
-  function editVideo(id) {
+  const editVideo = useCallback(function editVideo(id) {
     // dispatch({type: 'EDIT', payload: id});
     setEditableVideo(videos.find(video => video.id === id));
-  }
+  }, [videos]);
+
+
 
   //CONTENT FOR CHANGE THE THEME ******************************** NOT IN USE
   // const themeContext = useContext(ThemeContext);
@@ -58,12 +63,15 @@ function App() {
               )}>Toggle Mode</button>
             <div className="container mx-auto">
               <div className='bg-zinc-800 p-6 rounded-xl'>
-                <h1 className='text-2xl mb-4'>Upload Your Video</h1>
+                <h1 className='text-2xl text-white mb-4'>Upload Your Video</h1>
                 <AddVideo editableVideo={editableVideo}></AddVideo>
               </div>
               <h2 className='text-3xl mt-5'>Video Application</h2>
               <div className='grid grid-cols-1 md:grid-cols-3 gap-5 py-5'>
                 <VideoList editVideo={editVideo} />
+              </div>
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-5 py-5">
+                <Counter />
               </div>
             </div>
           </div>

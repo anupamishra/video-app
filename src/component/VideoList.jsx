@@ -1,10 +1,38 @@
-import React from 'react'
+import React, { useCallback, useEffect, useMemo } from 'react'
 import Video from './Video'
 import PlayButton from './PlayButton'
 import useVideosHook from '../hooks/VideosHook';
+import axios from 'axios';
+import useVideoDispathHook from '../hooks/VideoDispatchHook';
 
-function VideoList({  editVideo }) {
+function VideoList({ editVideo }) {
+	const URL = "https://my.api.mockaroo.com/video_data.json?key=2fea8c50";
+
 	const videos = useVideosHook();
+	const dispatch = useVideoDispathHook();
+
+	// async function getVideos() {
+	// 	const res = await axios.get(URL);
+	// 	// console.log(res.data);
+	// 	dispatch({ type: 'LOAD', payload: res.data });
+	// }
+
+	useEffect(() => {
+		async function getVideos() {
+			const res = await axios.get(URL);
+			// console.log(res.data);
+			dispatch({ type: 'LOAD', payload: res.data });
+		}
+		getVideos();
+	}, [dispatch]);
+
+	const play = useCallback(() => console.log('Playing'))
+	const pause = useCallback(() => console.log('Paused'))
+	const memoButton = useMemo(() => (
+		<PlayButton onPlay={play} onPause={pause}>
+			Play
+		</PlayButton>), [play, pause])
+
 	return (
 		<>
 			{videos.map(video =>
@@ -18,12 +46,9 @@ function VideoList({  editVideo }) {
 					id={video?.id}
 					editVideo={editVideo}
 				>
-					<PlayButton
-						message="Hi"
-						onPlay={() => console.log('Playing', video.title)}
-						onPause={() => console.log('Paused', video.title)}
-					>{video.title}</PlayButton>
+					{memoButton}
 				</Video>)}
+			{/* <button onClick={handleClick}>Get Video</button> */}
 		</>
 	)
 }

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import useVideoDispathHook from '../hooks/VideoDispatchHook';
 
 const initialVideoState = {
@@ -11,7 +11,8 @@ const initialVideoState = {
 
 function AddVideo({ editableVideo }) {
   const [video, setVideos] = useState(initialVideoState);
-  const dispatch =  useVideoDispathHook()
+  const dispatch = useVideoDispathHook();
+  const inputRef = useRef(null);
 
   function handleSubmit(e) {
     e.preventDefault();
@@ -37,7 +38,16 @@ function AddVideo({ editableVideo }) {
     if (editableVideo) {
       setVideos(editableVideo);
     }
-    // console.log('Effect');
+    inputRef.current.focus();
+
+    // inputRef.current.placeholder = "";
+    // "Type here...".split('').forEach((char, i) => {
+    //   setTimeout(() => {
+    //     console.log(char);
+    //     inputRef.current.placeholder = inputRef.current.placeholder + char
+    //   }, 100 * i)
+    // })
+
   }, [editableVideo])
 
   return (
@@ -45,6 +55,7 @@ function AddVideo({ editableVideo }) {
       <div className='grid grid-cols-2 gap-4'>
         <div>
           <input
+            ref={inputRef}
             onChange={handleOnChange}
             name='title'
             value={video.title}
